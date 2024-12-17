@@ -35,12 +35,7 @@ async fn main(spawner: Spawner) {
     } = Board::new().await;
 
     debug!("board initialized!");
-
-
-    // create I2C interfaces with the shared bus
-    //let i2c_dev1 = I2cDevice::new(i2cbus); 
-    //let i2c_dev2 = I2cDevice::new(i2cbus); 
-    
+   
     // define GATT server
     let server = unwrap!(ble::Server::new(sd));
     
@@ -55,17 +50,5 @@ async fn main(spawner: Spawner) {
     // turn on the external antenna for better gain
     ant_ext.set_high();
     info!("external antenna on!");
-
-    /*
-    loop {                
-
-        green.set_high();
-        Timer::after_millis(2000).await;            
-        debug!("blink");
-        green.set_low();
-        Timer::after_millis(500).await;            
-                
-    }
-     */
     
 }

@@ -48,13 +48,15 @@ pub async fn ble_server_task(
 
     info!("bluetooth on!");
 
+    //let ble_config = peripheral::Config::default();
     // set specific TxPower for higher/lower gain
-    let ble_config = peripheral::Config { tx_power: nrf_softdevice::ble::TxPower::Plus4dBm, ..Default::default() };
+    let ble_config = peripheral::Config { tx_power: nrf_softdevice::ble::TxPower::Plus8dBm, ..Default::default() };
 
     let adv = peripheral::ConnectableAdvertisement::ScannableUndirected { 
         adv_data: &ADV_DATA, 
         scan_data: &SCAN_DATA 
     };
+
     
     let mut bme280 = BME280::new_primary(i2c_dev1);
     info!("set up BME280!");
@@ -79,11 +81,15 @@ pub async fn ble_server_task(
     ens160.operational().await.unwrap();
     debug!("ENS160 operational");
 
+
     loop {
+
+        //led.set_low();
 
         let conn = unwrap!(peripheral::advertise_connectable(sd, adv, &ble_config).await);
         info!("advertising done! I have a connection.");
 
+        //let batt_fut = notify_batt_value(&server, &conn);
         let envi_fut = notify_sensor(&mut bme280, delay.clone(), &mut ens160, &server, &conn, &mut led);
         let gatt_fut = gatt_server::run(&conn, server, |e| match e {            
                 ServerEvent::Bat(BatteryServiceEvent::BatteryLevelCccdWrite { notifications }) => {
@@ -120,6 +126,7 @@ pub async fn ble_server_task(
             }
         };
 
+        //led.set_high();    
     }
 
 
@@ -138,7 +145,6 @@ async fn notify_sensor<'a>(
 
     loop {                
 
-        // LED on during sensor polling to indicate activity
         led.set_low();
         
         let measurements = bme_sensor.measure(&mut delay).await.unwrap();

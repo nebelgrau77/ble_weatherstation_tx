@@ -7,11 +7,10 @@ Another way could be running mutliple tasks independently at given intervals and
 
 Currently the code is set up for use with Particle Xenon, but it can be easily modified to use with Adafruit ItsyBitsy, Seeed Xiao etc.
 
-To run: `cargo run ble_weather_tx --features xenon` (or for now simply `cargo run`).
-
+To run: for now simply `cargo run`.
 
 TO DO:
-[ ] test on hardware
-[ ] fix memory settings
+[x] test on hardware
+[x] fix memory settings
 [ ] refactor board.rs to be able to use different boards
 [ ] try the other approach with independent tasks

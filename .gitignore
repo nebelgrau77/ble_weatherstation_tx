@@ -4,3 +4,4 @@ target/
 *.hex
 *.zip
 logs/
+*.log

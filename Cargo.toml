@@ -17,7 +17,7 @@ xenon = [
 
 [dependencies]
 embassy-nrf = { version = "0.2.0", features = ["defmt", "nrf52840", "time-driver-rtc1", "gpiote", "unstable-pac", "time"] }
-embassy-executor = { version = "0.6.3", features = [
+embassy-executor = { version = "0.5", features = [
     "arch-cortex-m",
     "executor-thread",
     "executor-interrupt",
@@ -52,6 +52,7 @@ embedded-hal = { version = "1.0" }
 embedded-hal-async = { version = "1.0" }
 
 bme280 = { git = "https://github.com/RobinThrift/bme280-rs.git", version = "0.4", default-features = false, features = ["async"]}
+
 ens160 = {git = "https://github.com/nebelgrau77/ens160-eco2.git", default-features = false, features = ["async"]}
 
 # cargo build/run
