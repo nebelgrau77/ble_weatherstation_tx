@@ -1,0 +1,64 @@
+[package]
+name = "ble_weather_tx"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+harness = false
+path = "src/lib/mod.rs"
+
+[features]
+default = ["xenon"]
+xenon = [
+    "embassy-nrf/nrf52840",
+    "nrf-softdevice/nrf52840",
+    "nrf-softdevice/s140",
+]
+
+[dependencies]
+embassy-nrf = { version = "0.2.0", features = ["defmt", "nrf52840", "time-driver-rtc1", "gpiote", "unstable-pac", "time"] }
+embassy-executor = { version = "0.6.3", features = [
+    "arch-cortex-m",
+    "executor-thread",
+    "executor-interrupt",
+    "defmt",
+    "integrated-timers",
+] }
+embassy-time = { version = "0.3", features = [
+    "defmt",
+    "defmt-timestamp-uptime",
+] }
+embassy-sync = { version = "0.6.0", features = ["defmt"] }
+
+embassy-embedded-hal = "0.2.0"
+
+nrf-softdevice = { git = "https://github.com/embassy-rs/nrf-softdevice", features = [
+    "defmt",
+    "ble-peripheral",
+    "ble-gatt-server",
+    "critical-section-impl",
+] }
+
+cortex-m = "0.7.7"
+cortex-m-rt = "0.7.3"
+defmt = "0.3.5"
+defmt-rtt = "0.4.0"
+panic-probe = { version = "0.3.1", features = ["print-defmt"] }
+futures = { version = "0.3.29", default-features = false }
+heapless = { version = "0.8", features = ["defmt-03"] }
+static_cell = "2.0.0"
+
+embedded-hal = { version = "1.0" }
+embedded-hal-async = { version = "1.0" }
+
+bme280 = { git = "https://github.com/RobinThrift/bme280-rs.git", version = "0.4", default-features = false, features = ["async"]}
+ens160 = {git = "https://github.com/nebelgrau77/ens160-eco2.git", default-features = false, features = ["async"]}
+
+# cargo build/run
+[profile.dev]
+codegen-units = 1
+debug = 2
+debug-assertions = true # <-
+incremental = false
+opt-level = 'z'         # <-
+overflow-checks = true  # <-

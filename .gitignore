@@ -1,0 +1,6 @@
+Cargo.lock
+*.bkp
+target/
+*.hex
+*.zip
+logs/
